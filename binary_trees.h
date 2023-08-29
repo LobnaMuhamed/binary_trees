@@ -39,8 +39,8 @@ typedef struct binary_tree_s heap_t;
 
 typedef struct queue_d
 {
-	binary_tree_t *data;
-	struct queue *next;
+	const binary_tree_t *data;
+	struct queue_d *next;
 } Q_d;
 
 /**
@@ -101,8 +101,11 @@ int *heap_to_sorted_array(heap_t *heap, size_t *size);
 
 int is_perfect(const binary_tree_t *tree, int depth, int level);
 int depth(const binary_tree_t *tree);
-void push(Q_d *q, binary_tree_t *data);
+void push(Q_q *q, const binary_tree_t *data);
 Q_d *pop(Q_d *q);
+int is_bst(const binary_tree_t *tree, Q_q *q);
+int is_duplicate(Q_d *head, int data);
+void free_all(Q_q *q);
 
 #endif /* BINARY_TREES_H */
 

@@ -33,6 +33,8 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 		if (tmp)
 			free(tmp);
 	} while (tmp);
+
+	free(q);
 }
 
 /**

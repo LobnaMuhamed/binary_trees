@@ -31,6 +31,30 @@ typedef struct binary_tree_s avl_t;
 /* Max Binary Heap */
 typedef struct binary_tree_s heap_t;
 
+/**
+ * struct queue_d - Queue Data
+ * @data: Pointers
+ * @next: Next Node
+ */
+
+typedef struct queue_d
+{
+	binary_tree_t *data;
+	struct queue *next;
+} Q_d;
+
+/**
+ * struct queue_q - Queue
+ * @head: The first node
+ * @tail: The last node
+ */
+
+typedef struct queue_q
+{
+	Q_d *head;
+	Q_d *tail;
+} Q_q;
+
 
 /* Prototypes */
 void binary_tree_print(const binary_tree_t *tree);
@@ -77,6 +101,8 @@ int *heap_to_sorted_array(heap_t *heap, size_t *size);
 
 int is_perfect(const binary_tree_t *tree, int depth, int level);
 int depth(const binary_tree_t *tree);
+void push(Q_d *q, binary_tree_t *data);
+Q_d *pop(Q_d *q);
 
 #endif /* BINARY_TREES_H */
 

@@ -16,6 +16,7 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 
 	if (!tree)
 		return (0);
+
 	q = (Q_q *)malloc(sizeof(Q_q));
 	if (!q)
 		return (0);
@@ -41,13 +42,8 @@ int is_bst(const binary_tree_t *tree, Q_q *q)
 	int left, right;
 
 	if (!tree)
-		return (0);
-	if (is_duplicate(q->head, tree->n))
-		return (0);
-	push(q, tree);
-
-	if (!tree->left && !tree->right)
 		return (1);
+
 	if (tree->left && (tree->left->n >= tree->n))
 		return (0);
 	if (tree->right && (tree->right->n <= tree->n))
@@ -64,6 +60,11 @@ int is_bst(const binary_tree_t *tree, Q_q *q)
 			(tree->right &&
 			(tree->right->n <= tree->parent->n)))
 			return (0);
+
+	if (is_duplicate(q->head, tree->n))
+		return (0);
+	push(q, tree);
+
 	if (tree->left)
 		left = is_bst(tree->left, q);
 	if (tree->right)

@@ -104,7 +104,6 @@ int is_perfect(const binary_tree_t *tree, int depth, int level);
 int depth(const binary_tree_t *tree);
 void push(Q_q *q, const binary_tree_t *data);
 Q_d *pop(Q_q *q);
-int is_bst(const binary_tree_t *tree, Q_q *q);
 int is_duplicate(Q_d *head, int data);
 void free_all(Q_q *q);
 

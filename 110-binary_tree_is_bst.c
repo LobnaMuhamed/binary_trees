@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include "binary_trees.h"
 #include <stdio.h>
+#include <limits.h>
+
+int is_bst(const binary_tree_t *tree, int min_value, int max_value);
 
 /**
  * binary_tree_is_bst - Checks if a binary tree is a valid Binary Search Tree
@@ -11,8 +14,7 @@
 
 int binary_tree_is_bst(const binary_tree_t *tree)
 {
-	int result;
-	Q_q *q;
+	int min_value = INT_MIN, max_value = INT_MAX;
 
 	if (!tree)
 		return (0);
@@ -20,58 +22,32 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 	if (!tree->left && !tree->right)
 		return (1);
 
-	q = (Q_q *)malloc(sizeof(Q_q));
-	if (!q)
-		return (0);
-	q->head = NULL;
-	q->tail = NULL;
-
-	result = is_bst(tree, q);
-
-	free_all(q);
-	return (result);
+	return (is_bst(tree, min_value, max_value));
 }
 
 /**
  * is_bst - Check if Binary Search Tree
  * @tree: Pointer to root
- * @q: Struct Queue
+ * @min_value: integer
+ * @max_value: integer
  *
  * Return: 1 if tree is a valid BST, and 0 otherwise
  */
 
-int is_bst(const binary_tree_t *tree, Q_q *q)
+int is_bst(const binary_tree_t *tree, int min_value, int max_value)
 {
-	int left, right;
+/*	int left, right;*/
 
 	if (!tree)
 		return (1);
 
-	if (tree->left && (tree->left->n >= tree->n))
-		return (0);
-	if (tree->right && (tree->right->n <= tree->n))
-		return (0);
-	if (tree->parent && (tree->n < tree->parent->n))
-		if ((tree->left &&
-			(tree->left->n >= tree->parent->n)) ||
-			(tree->right &&
-			(tree->right->n >= tree->parent->n)))
-			return (0);
-	if (tree->parent && (tree->n > tree->parent->n))
-		if ((tree->left &&
-			(tree->left->n <= tree->parent->n)) ||
-			(tree->right &&
-			(tree->right->n <= tree->parent->n)))
-			return (0);
 
-	if (is_duplicate(q->head, tree->n))
+	if (tree->n < min_value || tree->n > max_value)
 		return (0);
-	push(q, tree);
 
-	left = is_bst(tree->left, q);
-	right = is_bst(tree->right, q);
-
-	return ((left && right));
+	return (is_bst(tree->left, min_value, (tree->n - 1)) &&
+		is_bst(tree->right, (tree->n + 1), max_value)
+		);
 }
 
 /**

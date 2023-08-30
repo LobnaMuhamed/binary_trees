@@ -11,7 +11,7 @@
 
 int binary_tree_is_bst(const binary_tree_t *tree)
 {
-	int left, right, result;
+	int result;
 	Q_q *q;
 
 	if (!tree)

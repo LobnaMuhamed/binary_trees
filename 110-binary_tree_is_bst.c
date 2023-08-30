@@ -44,8 +44,6 @@ int is_bst(const binary_tree_t *tree, Q_q *q)
 	if (!tree)
 		return (0);
 
-	if (!tree->left || !tree->right)
-		return (1);
 	if (tree->left && (tree->left->n >= tree->n))
 		return (0);
 	if (tree->right && (tree->right->n <= tree->n))
@@ -67,10 +65,8 @@ int is_bst(const binary_tree_t *tree, Q_q *q)
 		return (0);
 	push(q, tree);
 
-	if (tree->left)
-		left = is_bst(tree->left, q);
-	if (tree->right)
-		right = is_bst(tree->right, q);
+	left = is_bst(tree->left, q);
+	right = is_bst(tree->right, q);
 
 	return ((left && right));
 }

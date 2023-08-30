@@ -17,31 +17,60 @@ bst_t *remove_l_r(bst_t *root);
 
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *new = NULL;
+	bst_t *new = NULL, *node = NULL, *result = NULL;
 
 	if (!root)
 		return (NULL);
 
-	if (!root->parent)
+	if (root->n == value)
+		node = root;
+	else
 	{
-		if (!root->left)
-			root->right->parent = root->parent;
-		if (!root->right)
-			root->left->parent = root->parent;
-		if (!root->left || !root->right)
-			free(root);
+		if (root->n < value)
+			node = root->right;
+		else
+			node = root->left;
+
+		while (node && node->n != value)
+		{
+			if (node->n < value)
+				node = node->right;
+			else
+				node = node->left;
+		}
+	}
+
+	if (!node->parent)
+	{
+		if (!node->left)
+		{
+			node->right->parent = node->parent;
+			result = node->right;
+			free(node);
+			return (result);
+		}
+		else if (!node->right)
+		{
+			node->left->parent = node->parent;
+			result = node->left;
+			free(node);
+			return (result);
+		}
+	}
+	if (node->left && node->right)
+	{
+		new = remove_l_r(node);
+		if (new->parent)
+			new = root;
 	}
 	else
 	{
-		if (!root->left)
-			new = remove_l(root);
-
-		if (!root->right)
-			new = remove_r(root);
+		new = root;
+		if (!node->left)
+			free(remove_l(node));
+		else if (!node->right)
+			free(remove_r(node));
 	}
-
-	if (root->left && root->right)
-		new = remove_l_r(root);
 
 	return (new);
 }
@@ -55,15 +84,19 @@ bst_t *bst_remove(bst_t *root, int value)
 
 bst_t *remove_l(bst_t *root)
 {
+	bst_t *result;
+
 	if (root->parent->left == root)
 		root->parent->left = root->right;
 	else
 		root->parent->right = root->right;
 	if (root->right)
 		root->right->parent = root->parent;
+
+	result = root->right;
 	free(root);
 
-	return (root->right);
+	return (result);
 }
 
 /**
@@ -82,9 +115,8 @@ bst_t *remove_r(bst_t *root)
 
 	if (root->left)
 		root->left->parent = root->parent;
-	free(root);
 
-	return (root->left);
+	return (root);
 }
 
 /**
@@ -100,15 +132,15 @@ bst_t *remove_l_r(bst_t *root)
 
 	while (tmp)
 	{
-		if (!tmp->right)
+		if (!tmp->left)
 		{
 			root->n = tmp->n;
-			tmp->parent->right = tmp->left;
+			tmp->parent->left = tmp->right;
 			free(tmp);
 			return (root);
 		}
 
-		tmp = tmp->right;
+		tmp = tmp->left;
 	}
 
 	return (root);

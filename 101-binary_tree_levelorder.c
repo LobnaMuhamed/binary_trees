@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "binary_trees.h"
+#include <stdio.h>
 
 /**
  * binary_tree_levelorder - Goes through a binary tree
@@ -11,7 +12,7 @@
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
 	Q_q *q = (Q_q *)malloc(sizeof(Q_q *));
-	binary_tree_t *tmp;
+	Q_d *tmp;
 
 	if (!q)
 		return;
@@ -27,14 +28,17 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 
 	do {
 		tmp = pop(q);
-		func(tmp->n);
-		push(q, tmp->left);
-		push(q, tmp->right);
 		if (tmp)
+		{
+			func(tmp->data->n);
+			push(q, tmp->data->left);
+			push(q, tmp->data->right);
 			free(tmp);
+		}
 	} while (tmp);
 
-	free(q);
+	if (q)
+		free(q);
 }
 
 /**
@@ -43,7 +47,7 @@ void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
  * @data: The data of the node
  */
 
-void push(Q_d *q, binary_tree_t *data)
+void push(Q_q *q, const binary_tree_t *data)
 {
 	Q_d *new_node;
 
@@ -73,12 +77,15 @@ void push(Q_d *q, binary_tree_t *data)
  * Return: The node
  */
 
-Q_d *pop(Q_d *q)
+Q_d *pop(Q_q *q)
 {
 	Q_d *tmp = NULL;
 
-	tmp = q->head;
-	q->head = q->head->next;
+	if (q && q->head)
+	{
+		tmp = q->head;
+		q->head = q->head->next;
+	}
 
 	return (tmp);
 }

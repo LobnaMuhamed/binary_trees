@@ -46,7 +46,7 @@ int is_bst(const binary_tree_t *tree, Q_q *q)
 		return (1);
 
 	tmp = tree->parent;
-	if (tmp && (tmp->left == tree))
+	if (tmp)
 	{
 		while (tmp)
 		{
@@ -55,17 +55,6 @@ int is_bst(const binary_tree_t *tree, Q_q *q)
 
 			tmp = tmp->parent;
 
-		}
-	}
-
-	if (tmp && (tmp->right == tree))
-	{
-		while (tmp)
-		{
-			if (tree->n == tmp->n)
-				return (0);
-
-			tmp = tmp->parent;
 		}
 	}
 

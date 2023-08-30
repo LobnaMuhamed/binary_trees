@@ -5,12 +5,29 @@
  * @second: is a pointer to the second node
  * Return: pointer to the lowest ancestor node of the two given nodes or NULL
 */
-binary_tree_t *binary_trees_ancestor(const binary_tree_t *first, const binary_tree_t *second)
+binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
+		const binary_tree_t *second)
 {
-	int n1, n2;
+	binary_tree_t *ancestor = NULL;
 
-	n1 = first->n;
-	n2 = second->n;
-	return ((n1 > n2) ? second : first);
-
+	if (!first || !second)
+		return (NULL);
+	if (first == second)
+		return ((binary_tree_t *)(first));
+	while (second)
+	{
+		if (first->parent == second->parent)
+			return ((binary_tree_t *)(first->parent));
+		if (first->left == second || first->right == second)
+			return ((binary_tree_t *)(first));
+		if (second->left == first || second->right == first)
+			return ((binary_tree_t *)(second));
+		if (second->n < first->n)
+			second = second->parent;
+		else if (second->n > first->n)
+			first = first->parent;
+		else
+			break;
+	}
+	return (ancestor);
 }

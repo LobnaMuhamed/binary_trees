@@ -42,7 +42,7 @@ int is_bst(const binary_tree_t *tree, Q_q *q)
 	int left, right;
 
 	if (!tree)
-		return (0);
+		return (1);
 
 	if (tree->left && (tree->left->n >= tree->n))
 		return (0);

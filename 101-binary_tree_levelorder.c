@@ -11,11 +11,12 @@
 
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
-	Q_q *q = (Q_q *)malloc(sizeof(Q_q *));
+	Q_q *q = (Q_q *)malloc(sizeof(Q_q));
 	Q_d *tmp;
 
 	if (!q)
 		return;
+
 	q->head = NULL;
 	q->tail = NULL;
 
@@ -53,7 +54,7 @@ void push(Q_q *q, const binary_tree_t *data)
 
 	if (q && data)
 	{
-		new_node = (Q_d *)malloc(sizeof(Q_d *));
+		new_node = (Q_d *)malloc(sizeof(Q_d));
 		if (!new_node)
 			exit(1);
 

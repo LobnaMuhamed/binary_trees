@@ -11,17 +11,18 @@
 
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
-	Q_q *q = (Q_q *)malloc(sizeof(Q_q));
+	Q_q *q;
 	Q_d *tmp;
 
+	if (!tree || !func)
+		return;
+
+	q = (Q_q *)malloc(sizeof(Q_q));
 	if (!q)
 		return;
 
 	q->head = NULL;
 	q->tail = NULL;
-
-	if (!tree || !func)
-		return;
 
 	func(tree->n);
 	push(q, tree->left);

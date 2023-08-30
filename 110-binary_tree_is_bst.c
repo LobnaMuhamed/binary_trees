@@ -24,38 +24,8 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 
 	result = is_bst(tree, q);
 
-        free_all(q);
+	free_all(q);
 	return (result);
-
-	if (!tree->left && !tree->right)
-		return (1);
-
-	if (tree->left && (tree->left->n >= tree->n))
-		return (0);
-
-	if (tree->right && (tree->right->n <= tree->n))
-		return (0);
-
-	if (tree->parent && (tree->n < tree->parent->n))
-		if ((tree->left &&
-				(tree->left->n >= tree->parent->n)) ||
-				(tree->right &&
-				(tree->right->n >= tree->parent->n)))
-			return (0);
-
-	if (tree->parent && (tree->n > tree->parent->n))
-		if ((tree->left &&
-				(tree->left->n <= tree->parent->n)) ||
-				(tree->right &&
-				(tree->right->n <= tree->parent->n)))
-			return (0);
-
-	if (tree->left)
-		left = binary_tree_is_bst(tree->left);
-	if (tree->right)
-		right = binary_tree_is_bst(tree->right);
-
-	return ((left && right));
 }
 
 /**
@@ -68,38 +38,38 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 
 int is_bst(const binary_tree_t *tree, Q_q *q)
 {
-        int left, right;
+	int left, right;
 
-        if (!tree)
-                return (0);
-        if (is_duplicate(q->head, tree->n))
-                return (0);
-        push(q, tree);
+	if (!tree)
+		return (0);
+	if (is_duplicate(q->head, tree->n))
+		return (0);
+	push(q, tree);
 
-        if (!tree->left && !tree->right)
-                return (1);
-        if (tree->left && (tree->left->n >= tree->n))
-                return (0);
-        if (tree->right && (tree->right->n <= tree->n))
-                return (0);
-        if (tree->parent && (tree->n < tree->parent->n))
-                if ((tree->left &&
-                                (tree->left->n >= tree->parent->n)) ||
-                                (tree->right &&
-                                (tree->right->n >= tree->parent->n)))
-                        return (0);
-        if (tree->parent && (tree->n > tree->parent->n))
-                if ((tree->left &&
-                                (tree->left->n <= tree->parent->n)) ||
-                                (tree->right &&
-                                (tree->right->n <= tree->parent->n)))
-                        return (0);
-        if (tree->left)
-                left = is_bst(tree->left, q);
-        if (tree->right)
-                right = is_bst(tree->right, q);
+	if (!tree->left && !tree->right)
+		return (1);
+	if (tree->left && (tree->left->n >= tree->n))
+		return (0);
+	if (tree->right && (tree->right->n <= tree->n))
+		return (0);
+	if (tree->parent && (tree->n < tree->parent->n))
+		if ((tree->left &&
+			(tree->left->n >= tree->parent->n)) ||
+			(tree->right &&
+			(tree->right->n >= tree->parent->n)))
+			return (0);
+	if (tree->parent && (tree->n > tree->parent->n))
+		if ((tree->left &&
+			(tree->left->n <= tree->parent->n)) ||
+			(tree->right &&
+			(tree->right->n <= tree->parent->n)))
+			return (0);
+	if (tree->left)
+		left = is_bst(tree->left, q);
+	if (tree->right)
+		right = is_bst(tree->right, q);
 
-        return ((left && right));
+	return ((left && right));
 }
 
 /**
@@ -109,16 +79,16 @@ int is_bst(const binary_tree_t *tree, Q_q *q)
 
 void free_all(Q_q *q)
 {
-        Q_d *tmp = q->head;
+	Q_d *tmp = q->head;
 
-        while (tmp)
-        {
-                q->head = tmp->next;
-                free(tmp);
-                tmp = q->head;
-        }
+	while (tmp)
+	{
+		q->head = tmp->next;
+		free(tmp);
+		tmp = q->head;
+	}
 
-        free(q);
+	free(q);
 }
 
 /**
@@ -131,18 +101,18 @@ void free_all(Q_q *q)
 
 int is_duplicate(Q_d *head, int data)
 {
-        if (!head)
-                return (0);
+	if (!head)
+		return (0);
 
-        while (head)
-        {
-                if (head->data->n == data)
-                        return (1);
+	while (head)
+	{
+		if (head->data->n == data)
+			return (1);
 
-                head = head->next;
-        }
+		head = head->next;
+	}
 
-        return (0);
+	return (0);
 }
 
 /**

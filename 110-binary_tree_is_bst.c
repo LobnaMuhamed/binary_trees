@@ -25,7 +25,7 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 
 	result = is_bst(tree, q);
 
-	free_all(q);
+/*	free_all(q);*/
 	return (result);
 }
 
@@ -40,9 +40,34 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 int is_bst(const binary_tree_t *tree, Q_q *q)
 {
 	int left, right;
+	binary_tree_t *tmp;
 
 	if (!tree)
 		return (1);
+
+	tmp = tree->parent;
+	if (tmp && (tmp->left == tree))
+	{
+		while (tmp)
+		{
+			if (tree->n == tmp->n)
+				return (0);
+
+			tmp = tmp->parent;
+
+		}
+	}
+
+	if (tmp && (tmp->right == tree))
+	{
+		while (tmp)
+		{
+			if (tree->n == tmp->n)
+				return (0);
+
+			tmp = tmp->parent;
+		}
+	}
 
 	if (tree->left && (tree->left->n >= tree->n))
 		return (0);
@@ -61,10 +86,10 @@ int is_bst(const binary_tree_t *tree, Q_q *q)
 			(tree->right->n <= tree->parent->n)))
 			return (0);
 
-	if (is_duplicate(q->head, tree->n))
+/*	if (is_duplicate(q->head, tree->n))
 		return (0);
 	push(q, tree);
-
+*/
 	left = is_bst(tree->left, q);
 	right = is_bst(tree->right, q);
 

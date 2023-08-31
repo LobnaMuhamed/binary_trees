@@ -134,18 +134,38 @@ bst_t *remove_l_r(bst_t *root)
 	{
 		if (!tmp->left)
 		{
-			root->n = tmp->n;
+			if (tmp->parent != root)
+			{
+				tmp->parent->left = tmp->right;
+				tmp->right = root->right;
+			}
+			tmp->parent = root->parent;
+			tmp->left = root->left;
+			root->left->parent = tmp;
+			root->right->parent = tmp;
+			if (root->parent)
+			{
+				if (root->parent->left == root)
+					root->parent->left = tmp;
+				else
+					root->parent->right = tmp;
+			}
+			free(root);
+			return (tmp);
+
+
+/*			root->n = tmp->n;
 			if (tmp->parent == root)
 				tmp->parent->right = tmp->right;
 			else
 				tmp->parent->left = tmp->right;
 			free(tmp);
-			return (root);
+			return (root);*/
 		}
 
 		tmp = tmp->left;
 	}
 
-	return (root);
+	return (tmp);
 }
 

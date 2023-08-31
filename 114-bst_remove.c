@@ -65,11 +65,12 @@ bst_t *bst_remove(bst_t *root, int value)
 	}
 	else
 	{
-		new = root;
 		if (!node->left)
-			free(remove_l(node));
+			new = remove_l(node);
 		else if (!node->right)
-			free(remove_r(node));
+			new = remove_r(node);
+		if (new->parent)
+			new = root;
 	}
 
 	return (new);
@@ -86,10 +87,14 @@ bst_t *remove_l(bst_t *root)
 {
 	bst_t *result;
 
-	if (root->parent->left == root)
-		root->parent->left = root->right;
-	else
-		root->parent->right = root->right;
+	if (root->parent)
+	{
+		if (root->parent->left == root)
+			root->parent->left = root->right;
+		else
+			root->parent->right = root->right;
+	}
+
 	if (root->right)
 		root->right->parent = root->parent;
 
@@ -108,15 +113,22 @@ bst_t *remove_l(bst_t *root)
 
 bst_t *remove_r(bst_t *root)
 {
-	if (root->parent->left == root)
-		root->parent->left = root->left;
-	else
-		root->parent->right = root->left;
+	bst_t *result;
+
+	if (root->parent)
+	{
+		if (root->parent->left == root)
+			root->parent->left = root->left;
+		else
+			root->parent->right = root->left;
+	}
 
 	if (root->left)
 		root->left->parent = root->parent;
 
-	return (root);
+	result = root->left;
+	free(root);
+	return (result);
 }
 
 /**

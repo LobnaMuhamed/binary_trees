@@ -41,7 +41,6 @@ bst_t *bst_remove(bst_t *root, int value)
 				free(node);
 				return (result);
 			}
-
 			if (!node->right && node->left)
 			{
 				node->left->parent = node->parent;
@@ -49,7 +48,6 @@ bst_t *bst_remove(bst_t *root, int value)
 				free(node);
 				return (result);
 			}
-
 			if (!node->right && !node->left)
 			{
 				free(node);
@@ -65,6 +63,8 @@ bst_t *bst_remove(bst_t *root, int value)
 		else
 		{
 			new = root;
+			if (!node->parent)
+				new = node->left ? node->left : node->right;
 			if (!node->left)
 				free(remove_l(node));
 			else if (!node->right)

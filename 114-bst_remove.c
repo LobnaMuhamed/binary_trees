@@ -49,6 +49,12 @@ bst_t *bst_remove(bst_t *root, int value)
 				free(node);
 				return (result);
 			}
+
+			if (!node->right && !node->left)
+			{
+				free(node);
+				return (NULL);
+			}
 		}
 		if (node->left && node->right)
 		{

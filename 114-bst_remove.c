@@ -17,59 +17,52 @@ bst_t *remove_l_r(bst_t *root);
 
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *new = NULL, *node = NULL, *result = NULL;
+	bst_t *new = NULL, *node = root, *result = NULL;
 
 	if (!root)
 		return (NULL);
 
-	if (root->n == value)
-		node = root;
-	else
+	while (node && node->n != value)
 	{
-		if (root->n < value)
-			node = root->right;
+		if (node->n < value)
+			node = node->right;
 		else
-			node = root->left;
-
-		while (node && node->n != value)
-		{
-			if (node->n < value)
-				node = node->right;
-			else
-				node = node->left;
-		}
+			node = node->left;
 	}
 
-	if (!node->parent)
+	if (node)
 	{
-		if (!node->left)
+		if (!node->parent)
 		{
-			node->right->parent = node->parent;
-			result = node->right;
-			free(node);
-			return (result);
+			if (!node->left)
+			{
+				node->right->parent = node->parent;
+				result = node->right;
+				free(node);
+				return (result);
+			}
+			else if (!node->right)
+			{
+				node->left->parent = node->parent;
+				result = node->left;
+				free(node);
+				return (result);
+			}
 		}
-		else if (!node->right)
+		if (node->left && node->right)
 		{
-			node->left->parent = node->parent;
-			result = node->left;
-			free(node);
-			return (result);
+			new = remove_l_r(node);
+			if (new->parent)
+				new = root;
 		}
-	}
-	if (node->left && node->right)
-	{
-		new = remove_l_r(node);
-		if (new->parent)
+		else
+		{
 			new = root;
-	}
-	else
-	{
-		new = root;
-		if (!node->left)
-			free(remove_l(node));
-		else if (!node->right)
-			free(remove_r(node));
+			if (!node->left)
+				free(remove_l(node));
+			else if (!node->right)
+				free(remove_r(node));
+		}
 	}
 
 	return (new);
